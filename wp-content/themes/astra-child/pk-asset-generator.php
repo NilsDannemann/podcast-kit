@@ -1,44 +1,52 @@
 <?php
 	
 	header("Content-Type: image/png");
-	$img = array();
 	
 	// Define Fonts
-	$font = './rubik.ttf';
+	$font = './pk-font.ttf';
 
 	// Define Params
-	$width 	  	 = (string) isset($_GET['width']) ? $_GET['width'] : 100;
-	$height 	 = (string) isset($_GET['height']) ? $_GET['height'] : 100;
-	$background  = (string) isset($_GET['background']) ? explode(",",hex2rgb($_GET['background'])) : explode(",",hex2rgb('ffffff'));
-	$title_color = (string) isset($_GET['title_color']) ? explode(",",hex2rgb($_GET['title_color'])) : explode(",",hex2rgb('ffffff'));
-	$text_color  = (string) isset($_GET['text_color']) ? explode(",",hex2rgb($_GET['text_color'])) : explode(",",hex2rgb('ffffff'));
-	$title 		 = (string) isset($_GET['title']) ? $_GET['title'] : '';
-	$text 		 = (string) isset($_GET['text']) ? $_GET['text'] : '';
-	
-	// Draw Image	
+	$width 	  	 		= (string) isset($_GET['width']) ? $_GET['width'] : 300;
+	$height 	 		= (string) isset($_GET['height']) ? $_GET['height'] : 300;
+	$background  		= (string) isset($_GET['background']) ? explode(",",hex2rgb($_GET['background'])) : explode(",",hex2rgb('ffffff'));
+	$background_image  	= (string) isset($_GET['background_image']) ? $_GET['background_image'] : 'pk-placeholder-transparent';
+	$title 		 		= (string) isset($_GET['title']) ? $_GET['title'] : '';
+	$title_color 		= (string) isset($_GET['title_color']) ? explode(",",hex2rgb($_GET['title_color'])) : explode(",",hex2rgb('ffffff'));
+	$title_size  		= 40;
+	$text 		 		= (string) isset($_GET['text']) ? $_GET['text'] : '';
+	$text_color  		= (string) isset($_GET['text_color']) ? explode(",",hex2rgb($_GET['text_color'])) : explode(",",hex2rgb('ffffff'));
+	$text_size   		= 20;
+
+	// Draw Image
 	$image = @imagecreate($width, $height)
 	    or die("Cannot Initialize new GD image stream");
-	
+
 	// Convert Params
 	$background_color = imagecolorallocate($image, $background[0], $background[1], $background[2]);
 	$title_color = imagecolorallocate($image, $title_color[0], $title_color[1], $title_color[2]);
 	$text_color = imagecolorallocate($image, $text_color[0], $text_color[1], $text_color[2]);
 
+
+	// Add Background Image
+	$background_image_object = imagecreatefrompng($background_image . '.png');
+	imagecopyresized($image, $background_image_object, 0, 0, 0, 0, $width*2, $height*2, $width, $height);
+
+
 	// Create Bounding Box: Title
-	$title_box = imagettfbbox(10, 45, $font, $title);
+	$title_box = imagettfbbox($title_size, 0, $font, $title);
 	// Cordinates for X and Y
-	$x = $title_box[0] + (imagesx($image) / 2) - ($title_box[4] / 2) - 25;
-	$y = $title_box[1] + (imagesy($image) / 2) - ($title_box[5] / 2) - 5;
+	$x = $title_box[0] + (imagesx($image) / 2) - ($title_box[4] / 2); // Preset: Horizontally centered
+	$y = $title_box[1] + (imagesy($image) / 2) - ($title_box[5] / 2); // Preset: Vertically centered
 	// Write to Image
-	imagettftext($image, 50, 45, $x, $y, $title_color, $font, $title);
+	imagettftext($image, $title_size, 0, $x, $y, $title_color, $font, $title);
 	
 	// Create Bounding Box: Text
-	$text_box = imagettfbbox(10, 45, $font, $text);
+	$text_box = imagettfbbox($text_size, 0, $font, $text);
 	// Cordinates for X and Y
-	$x = $text_box[0] + (imagesx($image) / 2) - ($text_box[4] / 2) + 10;
-	$y = $text_box[1] + (imagesy($image) / 2) - ($text_box[5] / 2) - 5;
+	$x = $text_box[0] + (imagesx($image) / 2) - ($text_box[4] / 2); // Preset: Horizontally centered
+	$y = $text_box[1] + (imagesy($image) / 2) - ($text_box[5] / 2); // Preset: Horizontally centered
 	// Write to Image
-	imagettftext($image, 25, 45, $x, $y, $text_color, $font, $text);
+	imagettftext($image, $text_size, 0, $x, $y, $text_color, $font, $text);
 
 
 	// Generate Image
