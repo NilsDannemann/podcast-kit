@@ -12,25 +12,23 @@
 	$background_image  	= (string) isset($_GET['background_image']) ? $_GET['background_image'] : 'pk-placeholder-transparent';
 	$title 		 		= (string) isset($_GET['title']) ? $_GET['title'] : '';
 	$title_color 		= (string) isset($_GET['title_color']) ? explode(",",hex2rgb($_GET['title_color'])) : explode(",",hex2rgb('ffffff'));
-	$title_size  		= 40;
+	$title_size  		= 100;
 	$text 		 		= (string) isset($_GET['text']) ? $_GET['text'] : '';
 	$text_color  		= (string) isset($_GET['text_color']) ? explode(",",hex2rgb($_GET['text_color'])) : explode(",",hex2rgb('ffffff'));
-	$text_size   		= 20;
+	$text_size   		= 50;
 
 	// Draw Image
 	$image = @imagecreate($width, $height)
 	    or die("Cannot Initialize new GD image stream");
 
-	// Convert Params
+	// Prepare Params for Image Generation
 	$background_color = imagecolorallocate($image, $background[0], $background[1], $background[2]);
 	$title_color = imagecolorallocate($image, $title_color[0], $title_color[1], $title_color[2]);
 	$text_color = imagecolorallocate($image, $text_color[0], $text_color[1], $text_color[2]);
 
-
 	// Add Background Image
 	$background_image_object = imagecreatefrompng($background_image . '.png');
 	imagecopyresized($image, $background_image_object, 0, 0, 0, 0, $width*2, $height*2, $width, $height);
-
 
 	// Create Bounding Box: Title
 	$title_box = imagettfbbox($title_size, 0, $font, $title);

@@ -40,8 +40,9 @@ function pk_asset_generator_handler( $atts ) {
 	), $atts));
 
 	// Set Defaults
+	// PNG Sample from unspash: https://images.unsplash.com/photo-1593642634315-48f5414c3ad9
 	$script = get_stylesheet_directory_uri().'/pk-asset-generator.php';
-	$params = '?width=1080&height=1080&background=745EA6&background_image=pk-placeholder-1&title_color=000000&text_color=cccccc&title=AAZZszszzszszszsZZZZZZzszzZZZZZZZZZ&text=Lorem ipsum dolor sit amet.';
+	$params = '?width=1080&height=1080&background=745EA6&background_image=pk-placeholder-1&title_color=000000&text_color=999999&title=HEADLINE&text=Lorem ipsum dolor sit amet.';
 
 	// Create Style Modifiers
 	if ( $color ) { 
