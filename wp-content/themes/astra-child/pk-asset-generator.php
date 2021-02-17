@@ -13,14 +13,18 @@
 	$height 	 		= (string) isset($_GET['height']) ? $_GET['height'] : 300;
 	$background  		= (string) isset($_GET['background']) ? explode(",",hex2rgb($_GET['background'])) : explode(",",hex2rgb('ffffff'));
 	$background_image  	= (string) isset($_GET['background_image']) ? $_GET['background_image'] : $plugin_dir.'/pk-placeholder-transparent.png';
+	$tagline 		 	= (string) isset($_GET['tagline']) ? $_GET['tagline'] : '';
+	$tagline_color 		= (string) isset($_GET['tagline_color']) ? explode(",",hex2rgb($_GET['tagline_color'])) : explode(",",hex2rgb('ffffff'));
+	$tagline_size  		= (string) isset($_GET['tagline_size']) ? $_GET['tagline_size'] : 50;
+	$tagline_font 		= (string) isset($_GET['tagline_font']) ? './fonts/'.$_GET['tagline_font'].'.ttf' : './fonts/roboto-regular.ttf';
 	$title 		 		= (string) isset($_GET['title']) ? $_GET['title'] : '';
 	$title_color 		= (string) isset($_GET['title_color']) ? explode(",",hex2rgb($_GET['title_color'])) : explode(",",hex2rgb('ffffff'));
-	$title_size  		= 100;
-	$title_font 		= './pk-font.ttf';
+	$title_size  		= (string) isset($_GET['title_size']) ? $_GET['title_size'] : 100;
+	$title_font 		= (string) isset($_GET['title_font']) ? './fonts/'.$_GET['title_font'].'.ttf' : './fonts/roboto-regular.ttf';
 	$text 		 		= (string) isset($_GET['text']) ? $_GET['text'] : '';
 	$text_color  		= (string) isset($_GET['text_color']) ? explode(",",hex2rgb($_GET['text_color'])) : explode(",",hex2rgb('ffffff'));
-	$text_size   		= 50;
-	$text_font 			= './pk-font.ttf';
+	$text_size  		= (string) isset($_GET['text_size']) ? $_GET['text_size'] : 25;
+	$text_font 			= (string) isset($_GET['text_font']) ? './fonts/'.$_GET['text_font'].'.ttf' : './fonts/roboto-regular.ttf';
 
 	// Draw Image
 	$image = @imagecreatetruecolor($width, $height)
@@ -28,15 +32,23 @@
 
 	// Prepare Params for Image Generation
 	$background_color = imagecolorallocate($image, $background[0], $background[1], $background[2]);
+	$tagline_color = imagecolorallocate($image, $tagline_color[0], $tagline_color[1], $tagline_color[2]);
 	$title_color = imagecolorallocate($image, $title_color[0], $title_color[1], $title_color[2]);
 	$text_color = imagecolorallocate($image, $text_color[0], $text_color[1], $text_color[2]);
 
 	// Add Background Image
 	$background_image_object = imagecreatefromstring(file_get_contents($background_image));
-	$bgi_width = imagesx($background_image_object);
-	$bgi_height = imagesy($background_image_object);
-	// imagecopyresized($image, $background_image_object, 0, 0, 0, 0, $width*2, $height*2, $width, $height);
-	imagecopyresized($image, $background_image_object, ($width/2)-($bgi_width/2), ($height/2)-($bgi_height/2), 0, 0, $bgi_width, $bgi_height, $bgi_width, $bgi_height);
+	$background_image_object_width = imagesx($background_image_object);
+	$background_image_object_height = imagesy($background_image_object);
+	imagecopyresized($image, $background_image_object, ($width/2)-($background_image_object_width/2), ($height/2)-($background_image_object_height/2), 0, 0, $background_image_object_width, $background_image_object_height, $background_image_object_width, $background_image_object_height);
+
+	// Create Bounding Box: Tagline
+	$tagline_box = imagettfbbox($tagline_size, 0, $tagline_font, $tagline);
+	// Cordinates for X and Y
+	$x = $tagline_box[0] + ($width / 2) - ($tagline_box[4] / 2); // Preset: Horizontally centered
+	$y = $tagline_box[1] + ($height / 2) - ($tagline_box[5] / 2); // Preset: Vertically centered
+	// Write to Image
+	imagettftext($image, $tagline_size, 0, $x, $y, $tagline_color, $tagline_font, $tagline);
 
 	// Create Bounding Box: Title
 	$title_box = imagettfbbox($title_size, 0, $title_font, $title);
