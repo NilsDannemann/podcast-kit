@@ -10,7 +10,7 @@
 	$canvas_width 	= (string) isset($_GET['width']) ? $_GET['width'] : 300;
 	$canvas_height 	= (string) isset($_GET['height']) ? $_GET['height'] : 300;
 	$background   	= (string) isset($_GET['background']) ? explode(",",hex2rgb($_GET['background'])) : explode(",",hex2rgb('ffffff'));
-	$image  	 	= (string) isset($_GET['image']) ? $_GET['image'] : $plugin_dir.'/pk-placeholder-transparent.png';
+	$image  	 	= (string) isset($_GET['image']) ? $_GET['image'] : $plugin_dir.'/images/pk-placeholder-transparent.png';
 	$tagline 		= (string) isset($_GET['tagline']) ? $_GET['tagline'] : '';
 	$tagline_color 	= (string) isset($_GET['tagline_color']) ? explode(",",hex2rgb($_GET['tagline_color'])) : explode(",",hex2rgb('ffffff'));
 	$tagline_size  	= (string) isset($_GET['tagline_size']) ? $_GET['tagline_size'] : 50;
@@ -53,10 +53,8 @@
 	imagecopyresized(
 		$canvas, //dst
 		$image_object, //src
-		// ($canvas_width/2)-($image_object_width/2),
-		// ($canvas_height/2)-($image_object_height/2),
-		0, // dst_x
-		0, // dst_y
+		($canvas_width/2)-($image_object_width_fit/2), // dst_x
+		($canvas_height/2)-($image_object_height_fit/2), // dst_y
 		0, // src_x
 		0, // src_y
 		$image_object_width_fit, // dst_w (new width)
@@ -79,8 +77,7 @@
 	$x = $title_box[0] + ($canvas_width / 2) - ($title_box[4] / 2); // Preset: Horizontally centered
 	$y = $title_box[1] + ($canvas_height / 2) - ($title_box[5] / 2); // Preset: Vertically centered
 	// Write to Canvas
-	// imagettftext($canvas, $title_size, 0, $x, $y, $title_color, $title_font, $title);
-	imagettftext($canvas, $title_size, 0, $x, $y, $title_color, $title_font, $aspect_ratio);
+	imagettftext($canvas, $title_size, 0, $x, $y, $title_color, $title_font, $title);
 	
 	// Text to Canvas
 	$text_box = imagettfbbox($text_size, 0, $text_font, $text);
