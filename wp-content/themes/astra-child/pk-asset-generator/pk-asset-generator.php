@@ -35,18 +35,34 @@
 	$image_object 		 = imagecreatefromstring(file_get_contents($image));
 	$image_object_width  = imagesx($image_object);
 	$image_object_height = imagesy($image_object);
+	$image_object_width_fit  = $canvas_width;
+	$image_object_height_fit  = $canvas_height;
+
+	if ($image_object_width > $image_object_height) {
+		// Case: Horizontal Image detected
+		$image_object_height_fit  = $canvas_height; // Set max HEIGHT to canvas max
+		$aspect_ratio = $image_object_width / $image_object_height; // Get WIDTH by aspect ratio
+		$image_object_width_fit  = $image_object_height_fit * $aspect_ratio;
+	} else {
+		// Case: Vertical Image detected
+		$image_object_width_fit  = $canvas_width; // Set max WIDTH to canvas max
+		$aspect_ratio = $image_object_height / $image_object_width; // Get HEIGHT by aspect ratio
+		$image_object_height_fit  = $image_object_width_fit * $aspect_ratio;
+	}
 	// Add to Canvas
 	imagecopyresized(
-		$canvas, 
-		$image_object,
-		($canvas_width/2)-($image_object_width/2),
-		($canvas_height/2)-($image_object_height/2),
-		0,
-		0,
-		$image_object_width,
-		$image_object_height,
-		$image_object_width,
-		$image_object_height
+		$canvas, //dst
+		$image_object, //src
+		// ($canvas_width/2)-($image_object_width/2),
+		// ($canvas_height/2)-($image_object_height/2),
+		0, // dst_x
+		0, // dst_y
+		0, // src_x
+		0, // src_y
+		$image_object_width_fit, // dst_w (new width)
+		$image_object_height_fit, // dst_h (new height)
+		$image_object_width, // src_w
+		$image_object_height // src_h
 	);
 
 	// Tagline to Canvas
@@ -63,7 +79,8 @@
 	$x = $title_box[0] + ($canvas_width / 2) - ($title_box[4] / 2); // Preset: Horizontally centered
 	$y = $title_box[1] + ($canvas_height / 2) - ($title_box[5] / 2); // Preset: Vertically centered
 	// Write to Canvas
-	imagettftext($canvas, $title_size, 0, $x, $y, $title_color, $title_font, $title);
+	// imagettftext($canvas, $title_size, 0, $x, $y, $title_color, $title_font, $title);
+	imagettftext($canvas, $title_size, 0, $x, $y, $title_color, $title_font, $aspect_ratio);
 	
 	// Text to Canvas
 	$text_box = imagettfbbox($text_size, 0, $text_font, $text);
