@@ -49,7 +49,7 @@ function pk_asset_generator_handler( $atts ) {
 		?width=1080
 		&height=1080
 		&background=745EA6
-		&background_image=https://images.unsplash.com/photo-1531347334762-59780ece5c76
+		&image=https://images.unsplash.com/photo-1531347334762-59780ece5c76
 		&tagline=Tagline
 		&tagline_size=50
 		&tagline_color=4BB9B8
