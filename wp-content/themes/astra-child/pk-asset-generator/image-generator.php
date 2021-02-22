@@ -162,4 +162,6 @@
 	   return implode(",", $rgb);
 	}
 
+	// Todo: create function that removes unnecessary parameters (e.g. from unsplash urls) and adds the ones needed (e.g. size & quality for unsplash urls)
+
 ?>
