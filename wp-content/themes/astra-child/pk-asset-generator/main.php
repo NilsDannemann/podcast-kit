@@ -19,7 +19,7 @@ function pk_asset_generator_handler( $atts ) {
 	wp_enqueue_style( 'asset-generator', $plugin_dir . '/style.min.css' );
 
 	// Set Defaults
-	// PNG Sample from unspash: https://images.unsplash.com/photo-1593642634315-48f5414c3ad9
+	// PNG Sample from unspash: https://images.unsplash.com/photo-1505740420928-5e560c06d30e
 	// PNG Sample from unspash: https://images.unsplash.com/photo-1531347334762-59780ece5c76
 	// JPG Sample: https://budgetstockphoto.com/samples/pics/padlock.jpg
 	// Long Sample: https://podcast-kit.com/wp-content/uploads/1500x1000.jpg
@@ -29,7 +29,7 @@ function pk_asset_generator_handler( $atts ) {
 		?width=1080
 		&height=1080
 		&background=745EA6
-		&image=https://podcast-kit.com/wp-content/uploads/placeholder-1440x960-1.jpeg
+		&image=https://images.unsplash.com/photo-1505740420928-5e560c06d30e
 		&waveform=true
 		&waveform_detail=5
 		&waveform_position=center bottom
