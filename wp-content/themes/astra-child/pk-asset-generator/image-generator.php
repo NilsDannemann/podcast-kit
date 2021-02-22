@@ -6,25 +6,26 @@
 	$plugin_dir = dirname(__FILE__);
 
 	// Define adjustable Settings
-	$quality 	 	 = (string) isset($_GET['quality']) ? $_GET['quality'] : 85;
-	$canvas_width 	 = (string) isset($_GET['width']) ? $_GET['width'] : 300;
-	$canvas_height 	 = (string) isset($_GET['height']) ? $_GET['height'] : 300;
-	$waveform  	 	 = (string) isset($_GET['waveform']) ? $_GET['waveform'] : false;
-	$waveform_detail = (string) isset($_GET['waveform_detail']) ? $_GET['waveform_detail'] : 5;
-	$background   	 = (string) isset($_GET['background']) ? explode(",",hex2rgb($_GET['background'])) : explode(",",hex2rgb('ffffff'));
-	$image  	 	 = (string) isset($_GET['image']) ? $_GET['image'] : $plugin_dir.'/images/pk-placeholder-transparent.png';
-	$tagline 		 = (string) isset($_GET['tagline']) ? $_GET['tagline'] : '';
-	$tagline_color 	 = (string) isset($_GET['tagline_color']) ? explode(",",hex2rgb($_GET['tagline_color'])) : explode(",",hex2rgb('ffffff'));
-	$tagline_size  	 = (string) isset($_GET['tagline_size']) ? $_GET['tagline_size'] : 50;
-	$tagline_font  	 = (string) isset($_GET['tagline_font']) ? './fonts/'.$_GET['tagline_font'].'.ttf' : './fonts/roboto-regular.ttf';
-	$title 		  	 = (string) isset($_GET['title']) ? $_GET['title'] : '';
-	$title_color  	 = (string) isset($_GET['title_color']) ? explode(",",hex2rgb($_GET['title_color'])) : explode(",",hex2rgb('ffffff'));
-	$title_size   	 = (string) isset($_GET['title_size']) ? $_GET['title_size'] : 100;
-	$title_font  	 = (string) isset($_GET['title_font']) ? './fonts/'.$_GET['title_font'].'.ttf' : './fonts/roboto-regular.ttf';
-	$text 		  	 = (string) isset($_GET['text']) ? $_GET['text'] : '';
-	$text_color   	 = (string) isset($_GET['text_color']) ? explode(",",hex2rgb($_GET['text_color'])) : explode(",",hex2rgb('ffffff'));
-	$text_size   	 = (string) isset($_GET['text_size']) ? $_GET['text_size'] : 25;
-	$text_font 	 	 = (string) isset($_GET['text_font']) ? './fonts/'.$_GET['text_font'].'.ttf' : './fonts/roboto-regular.ttf';
+	$quality 	 	 	= (string) isset($_GET['quality']) ? $_GET['quality'] : 85;
+	$canvas_width 	 	= (string) isset($_GET['width']) ? $_GET['width'] : 300;
+	$canvas_height 	 	= (string) isset($_GET['height']) ? $_GET['height'] : 300;
+	$waveform  	 	 	= (string) isset($_GET['waveform']) ? $_GET['waveform'] : false;
+	$waveform_detail 	= (string) isset($_GET['waveform_detail']) ? $_GET['waveform_detail'] : 5;
+	$waveform_position 	= (string) isset($_GET['waveform_position']) ? $_GET['waveform_position'] : 'center bottom';
+	$background   	 	= (string) isset($_GET['background']) ? explode(",",hex2rgb($_GET['background'])) : explode(",",hex2rgb('ffffff'));
+	$image  	 	 	= (string) isset($_GET['image']) ? $_GET['image'] : $plugin_dir.'/images/pk-placeholder-transparent.png';
+	$tagline 		 	= (string) isset($_GET['tagline']) ? $_GET['tagline'] : '';
+	$tagline_color 	 	= (string) isset($_GET['tagline_color']) ? explode(",",hex2rgb($_GET['tagline_color'])) : explode(",",hex2rgb('ffffff'));
+	$tagline_size  	 	= (string) isset($_GET['tagline_size']) ? $_GET['tagline_size'] : 50;
+	$tagline_font  	 	= (string) isset($_GET['tagline_font']) ? './fonts/'.$_GET['tagline_font'].'.ttf' : './fonts/roboto-regular.ttf';
+	$title 		  	 	= (string) isset($_GET['title']) ? $_GET['title'] : '';
+	$title_color  	 	= (string) isset($_GET['title_color']) ? explode(",",hex2rgb($_GET['title_color'])) : explode(",",hex2rgb('ffffff'));
+	$title_size   	 	= (string) isset($_GET['title_size']) ? $_GET['title_size'] : 100;
+	$title_font  	 	= (string) isset($_GET['title_font']) ? './fonts/'.$_GET['title_font'].'.ttf' : './fonts/roboto-regular.ttf';
+	$text 		  	 	= (string) isset($_GET['text']) ? $_GET['text'] : '';
+	$text_color   	 	= (string) isset($_GET['text_color']) ? explode(",",hex2rgb($_GET['text_color'])) : explode(",",hex2rgb('ffffff'));
+	$text_size   	 	= (string) isset($_GET['text_size']) ? $_GET['text_size'] : 25;
+	$text_font 	 	 	= (string) isset($_GET['text_font']) ? './fonts/'.$_GET['text_font'].'.ttf' : './fonts/roboto-regular.ttf';
 
 
 	// Draw Canvas
@@ -75,12 +76,27 @@
 		$waveform_object_width_fit  = $canvas_width;
 		$waveform_object_height_fit  = $waveform_object_width * $waveform_object_aspect_ratio;
 
+		// Position on Canvas
+		if ($waveform_position == 'center top') {
+			// Position Preset: center top
+			$waveform_object_pos_x = ($canvas_width/2)-($waveform_object_width_fit/2);
+			$waveform_object_pos_y = 0;
+		} else if ($waveform_position == 'center center') {
+			// Position Preset: center center
+			$waveform_object_pos_x = ($canvas_width/2)-($waveform_object_width_fit/2);
+			$waveform_object_pos_y = ($canvas_height/2)-($waveform_object_height_fit/2);
+		} else {
+			// Position Preset: center bottom
+			$waveform_object_pos_x = ($canvas_width/2)-($waveform_object_width_fit/2);
+			$waveform_object_pos_y = ($canvas_height)-($waveform_object_height_fit);
+		}
+
 		// Add to Canvas
 		imagecopyresized(
 			$canvas, //dst
 			$waveform_object, //src
-			($canvas_width/2)-($waveform_object_width_fit/2), // dst_x
-			($canvas_height/2)-($waveform_object_height_fit/2), // dst_y
+			$waveform_object_pos_x, // dst_x
+			$waveform_object_pos_y, // dst_y
 			0, // src_x
 			0, // src_y
 			$waveform_object_width_fit, // dst_w (new width)

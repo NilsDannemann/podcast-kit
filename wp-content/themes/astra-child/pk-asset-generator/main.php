@@ -31,7 +31,8 @@ function pk_asset_generator_handler( $atts ) {
 		&background=745EA6
 		&image=https://podcast-kit.com/wp-content/uploads/placeholder-1440x960-1.jpeg
 		&waveform=true
-		&waveform_detail=8
+		&waveform_detail=5
+		&waveform_position=center bottom
 		&tagline=Tagline
 		&tagline_size=50
 		&tagline_color=F7745D
