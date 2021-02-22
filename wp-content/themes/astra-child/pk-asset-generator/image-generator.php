@@ -6,7 +6,6 @@
 	$plugin_dir = dirname(__FILE__);
 
 	// Define adjustable Settings
-	// $quality 	  	 = 75;
 	$quality 	 	 = (string) isset($_GET['quality']) ? $_GET['quality'] : 85;
 	$canvas_width 	 = (string) isset($_GET['width']) ? $_GET['width'] : 300;
 	$canvas_height 	 = (string) isset($_GET['height']) ? $_GET['height'] : 300;
