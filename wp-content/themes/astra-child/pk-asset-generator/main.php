@@ -30,6 +30,8 @@ function pk_asset_generator_handler( $atts ) {
 		&height=1080
 		&background=745EA6
 		&image=https://podcast-kit.com/wp-content/uploads/placeholder-1440x960-1.jpeg
+		&waveform=true
+		&waveform_detail=8
 		&tagline=Tagline
 		&tagline_size=50
 		&tagline_color=F7745D
@@ -42,6 +44,7 @@ function pk_asset_generator_handler( $atts ) {
 		&text_size=20
 		&text_color=4191F2
 		&text_font=nunito-bold
+		&quality=85
 	';
 
 	// Set Style Modifiers: Spinner

@@ -6,23 +6,26 @@
 	$plugin_dir = dirname(__FILE__);
 
 	// Define adjustable Settings
-	$quality 	  	= 75;
-	$canvas_width 	= (string) isset($_GET['width']) ? $_GET['width'] : 300;
-	$canvas_height 	= (string) isset($_GET['height']) ? $_GET['height'] : 300;
-	$background   	= (string) isset($_GET['background']) ? explode(",",hex2rgb($_GET['background'])) : explode(",",hex2rgb('ffffff'));
-	$image  	 	= (string) isset($_GET['image']) ? $_GET['image'] : $plugin_dir.'/images/pk-placeholder-transparent.png';
-	$tagline 		= (string) isset($_GET['tagline']) ? $_GET['tagline'] : '';
-	$tagline_color 	= (string) isset($_GET['tagline_color']) ? explode(",",hex2rgb($_GET['tagline_color'])) : explode(",",hex2rgb('ffffff'));
-	$tagline_size  	= (string) isset($_GET['tagline_size']) ? $_GET['tagline_size'] : 50;
-	$tagline_font  	= (string) isset($_GET['tagline_font']) ? './fonts/'.$_GET['tagline_font'].'.ttf' : './fonts/roboto-regular.ttf';
-	$title 		  	= (string) isset($_GET['title']) ? $_GET['title'] : '';
-	$title_color  	= (string) isset($_GET['title_color']) ? explode(",",hex2rgb($_GET['title_color'])) : explode(",",hex2rgb('ffffff'));
-	$title_size   	= (string) isset($_GET['title_size']) ? $_GET['title_size'] : 100;
-	$title_font  	= (string) isset($_GET['title_font']) ? './fonts/'.$_GET['title_font'].'.ttf' : './fonts/roboto-regular.ttf';
-	$text 		  	= (string) isset($_GET['text']) ? $_GET['text'] : '';
-	$text_color   	= (string) isset($_GET['text_color']) ? explode(",",hex2rgb($_GET['text_color'])) : explode(",",hex2rgb('ffffff'));
-	$text_size   	= (string) isset($_GET['text_size']) ? $_GET['text_size'] : 25;
-	$text_font 	 	= (string) isset($_GET['text_font']) ? './fonts/'.$_GET['text_font'].'.ttf' : './fonts/roboto-regular.ttf';
+	// $quality 	  	 = 75;
+	$quality 	 	 = (string) isset($_GET['quality']) ? $_GET['quality'] : 85;
+	$canvas_width 	 = (string) isset($_GET['width']) ? $_GET['width'] : 300;
+	$canvas_height 	 = (string) isset($_GET['height']) ? $_GET['height'] : 300;
+	$waveform  	 	 = (string) isset($_GET['waveform']) ? $_GET['waveform'] : false;
+	$waveform_detail = (string) isset($_GET['waveform_detail']) ? $_GET['waveform_detail'] : 5;
+	$background   	 = (string) isset($_GET['background']) ? explode(",",hex2rgb($_GET['background'])) : explode(",",hex2rgb('ffffff'));
+	$image  	 	 = (string) isset($_GET['image']) ? $_GET['image'] : $plugin_dir.'/images/pk-placeholder-transparent.png';
+	$tagline 		 = (string) isset($_GET['tagline']) ? $_GET['tagline'] : '';
+	$tagline_color 	 = (string) isset($_GET['tagline_color']) ? explode(",",hex2rgb($_GET['tagline_color'])) : explode(",",hex2rgb('ffffff'));
+	$tagline_size  	 = (string) isset($_GET['tagline_size']) ? $_GET['tagline_size'] : 50;
+	$tagline_font  	 = (string) isset($_GET['tagline_font']) ? './fonts/'.$_GET['tagline_font'].'.ttf' : './fonts/roboto-regular.ttf';
+	$title 		  	 = (string) isset($_GET['title']) ? $_GET['title'] : '';
+	$title_color  	 = (string) isset($_GET['title_color']) ? explode(",",hex2rgb($_GET['title_color'])) : explode(",",hex2rgb('ffffff'));
+	$title_size   	 = (string) isset($_GET['title_size']) ? $_GET['title_size'] : 100;
+	$title_font  	 = (string) isset($_GET['title_font']) ? './fonts/'.$_GET['title_font'].'.ttf' : './fonts/roboto-regular.ttf';
+	$text 		  	 = (string) isset($_GET['text']) ? $_GET['text'] : '';
+	$text_color   	 = (string) isset($_GET['text_color']) ? explode(",",hex2rgb($_GET['text_color'])) : explode(",",hex2rgb('ffffff'));
+	$text_size   	 = (string) isset($_GET['text_size']) ? $_GET['text_size'] : 25;
+	$text_font 	 	 = (string) isset($_GET['text_font']) ? './fonts/'.$_GET['text_font'].'.ttf' : './fonts/roboto-regular.ttf';
 
 
 	// Draw Canvas
@@ -41,13 +44,13 @@
 	if ($image_object_width > $image_object_height) {
 		// Case: Horizontal Image detected
 		$image_object_height_fit  = $canvas_height; // Set max HEIGHT to canvas max
-		$aspect_ratio = $image_object_width / $image_object_height; // Get WIDTH by aspect ratio
-		$image_object_width_fit  = $image_object_height_fit * $aspect_ratio;
+		$image_object_aspect_ratio = $image_object_width / $image_object_height; // Get WIDTH by aspect ratio
+		$image_object_width_fit  = $image_object_height_fit * $image_object_aspect_ratio;
 	} else {
 		// Case: Vertical Image detected
 		$image_object_width_fit  = $canvas_width; // Set max WIDTH to canvas max
-		$aspect_ratio = $image_object_height / $image_object_width; // Get HEIGHT by aspect ratio
-		$image_object_height_fit  = $image_object_width_fit * $aspect_ratio;
+		$image_object_aspect_ratio = $image_object_height / $image_object_width; // Get HEIGHT by aspect ratio
+		$image_object_height_fit  = $image_object_width_fit * $image_object_aspect_ratio;
 	}
 	// Add to Canvas
 	imagecopyresized(
@@ -62,6 +65,31 @@
 		$image_object_width, // src_w
 		$image_object_height // src_h
 	);
+
+	// Waveform to Canvas
+	if ($waveform == 'true') {
+		$waveform_image = $plugin_dir.'/images/waveform-detail-'.$waveform_detail.'.png';
+		$waveform_object = imagecreatefromstring(file_get_contents($waveform_image));
+		$waveform_object_width  = imagesx($waveform_object);
+		$waveform_object_height = imagesy($waveform_object);
+		$waveform_object_aspect_ratio = $waveform_object_height / $waveform_object_width; // Get WIDTH by aspect ratio
+		$waveform_object_width_fit  = $canvas_width;
+		$waveform_object_height_fit  = $waveform_object_width * $waveform_object_aspect_ratio;
+
+		// Add to Canvas
+		imagecopyresized(
+			$canvas, //dst
+			$waveform_object, //src
+			($canvas_width/2)-($waveform_object_width_fit/2), // dst_x
+			($canvas_height/2)-($waveform_object_height_fit/2), // dst_y
+			0, // src_x
+			0, // src_y
+			$waveform_object_width_fit, // dst_w (new width)
+			$waveform_object_height_fit, // dst_h (new height)
+			$waveform_object_width, // src_w
+			$waveform_object_height // src_h
+		);
+	}
 
 	// Tagline to Canvas
 	$tagline_color = imagecolorallocate($canvas, $tagline_color[0], $tagline_color[1], $tagline_color[2]);
