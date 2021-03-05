@@ -39,7 +39,7 @@ class AddOnModule
 
         return View::make('admin.addons.index', [
             'menus'             => $extraMenus,
-            'base_url'          => admin_url('admin.php?page=fluent_form_add_ons'),
+            'base_url'          => admin_url('admin.php?page=fluent_forms_add_ons'),
             'current_menu_item' => $current_menu_item
         ]);
     }

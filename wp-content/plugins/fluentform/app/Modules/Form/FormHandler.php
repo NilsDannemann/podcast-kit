@@ -471,7 +471,7 @@ class FormHandler
      * @param array $settings
      * @param $fields
      */
-    private function handleDenyEmptySubmission($settings = [], &$fields)
+    private function handleDenyEmptySubmission($settings, &$fields)
     {
         // Determine whether empty form submission is allowed or not.
         if (Arr::get($settings, 'enabled')) {

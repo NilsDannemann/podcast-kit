@@ -13,7 +13,7 @@ $page = sanitize_text_field($_GET['page']);
     </a>
 
     <?php if($show_payment_entries): ?>
-        <a href="<?php echo admin_url('admin.php?page=fluent_form_payment_entries'); ?>" class="ninja-tab <?php echo ($page == 'fluent_form_payment_entries') ? 'ninja-tab-active' : '' ?>">
+        <a href="<?php echo admin_url('admin.php?page=fluent_forms_payment_entries'); ?>" class="ninja-tab <?php echo ($page == 'fluent_forms_payment_entries') ? 'ninja-tab-active' : '' ?>">
             <?php _e('Payments', 'fluentform'); ?>
         </a>
     <?php endif; ?>
@@ -21,7 +21,7 @@ $page = sanitize_text_field($_GET['page']);
     <a href="<?php echo admin_url('admin.php?page=fluent_forms_settings'); ?>" class="ninja-tab <?php echo ($page == 'fluent_forms_settings') ? 'ninja-tab-active' : '' ?>">
         <?php _e('Global Settings', 'fluentform'); ?>
     </a>
-    <a href="<?php echo admin_url('admin.php?page=fluent_form_add_ons'); ?>" class="ninja-tab <?php echo ($page == 'fluent_form_add_ons') ? 'ninja-tab-active' : '' ?>">
+    <a href="<?php echo admin_url('admin.php?page=fluent_forms_add_ons'); ?>" class="ninja-tab <?php echo ($page == 'fluent_forms_add_ons') ? 'ninja-tab-active' : '' ?>">
         <?php _e('Integrations', 'fluentform'); ?>
     </a>
     <?php if($show_payment): ?>
@@ -38,10 +38,10 @@ $page = sanitize_text_field($_GET['page']);
         <?php _e('Support', 'fluentform'); ?>
     </a>
 
-    <?php if(!defined('FLUENTFORMPRO')): ?>
-    <a target="_blank" rel="noopener" href="<?php echo fluentform_upgrade_url(); ?>" class="ninja-tab buy_pro_tab">
-        <?php _e('Upgrade to Pro', 'fluentform'); ?>
-    </a>
-    <?php endif; ?>
     <?php do_action('fluentform_after_global_menu'); ?>
+    <?php if(!defined('FLUENTFORMPRO')): ?>
+        <a target="_blank" rel="noopener" href="<?php echo fluentform_upgrade_url(); ?>" class="ninja-tab buy_pro_tab">
+            <?php _e('Upgrade to Pro', 'fluentform'); ?>
+        </a>
+    <?php endif; ?>
 </div>

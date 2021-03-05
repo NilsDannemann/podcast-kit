@@ -206,10 +206,20 @@ class Container implements ArrayAccess
      */
     protected function resolveClass(ReflectionParameter $parameter)
     {
+        $types = ['bool', 'int', 'float', 'string', 'array', 'resource'];
+        
         try {
-            if ($class = $parameter->getClass()) {
-                return $this->make($class->name);
+            if ($class = $this->getParameterType($parameter)) {
+                $class = $class->getName();
+                if ($class && in_array($class, $types)) {
+                    $class = null;
+                }
             }
+
+            if ($class) {
+                return $this->make($class);
+            }
+
             throw new Exception("The [".$parameter->name."] is not instantiable.");
         } catch (Exception $exception) {
             if ($parameter->isOptional()) {
@@ -224,6 +234,20 @@ class Container implements ArrayAccess
 
             throw $exception;
         }
+    }
+
+    /**
+     * Get the parameter type for the given parameter.
+     *
+     * @return object ReflectionClass|ReflectionNamedType
+     */
+    protected function getParameterType($parameter)
+    {
+        if (method_exists($parameter, 'getType')) {
+            return $parameter->getType();
+        }
+
+        return $parameter->getClass();
     }
 
     /**

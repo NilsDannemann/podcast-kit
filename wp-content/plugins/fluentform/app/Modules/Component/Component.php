@@ -775,7 +775,7 @@ class Component
     }
 
     /**
-     * Check if form has scheduled date and open for submission
+     * Check if form has scheduled date & weekdays and open for submission
      *
      * @param array $restrictions
      *
@@ -800,6 +800,15 @@ class Component
         if ($time >= $end) {
             $isRenderable['message'] = $restrictions['expiredMsg'];
 
+            return false;
+        }
+    
+        $weekDayToday     =  date("l") ;   //day of the week
+        $selectedWeekDays = ArrayHelper::get ($restrictions,'selectedDays',[]);
+    
+        if( ! in_array ($weekDayToday,$selectedWeekDays) && defined('FLUENTFORMPRO')){
+            $isRenderable['message'] = $restrictions['expiredMsg'];
+        
             return false;
         }
 

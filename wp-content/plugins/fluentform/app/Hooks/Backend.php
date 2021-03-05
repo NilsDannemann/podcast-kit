@@ -77,7 +77,7 @@ add_action('admin_init', function () {
         'fluent_forms',
         'fluent_forms_transfer',
         'fluent_forms_settings',
-        'fluent_form_add_ons',
+        'fluent_forms_add_ons',
         'fluent_forms_docs',
         'fluent_forms_all_entries',
         'msformentries'

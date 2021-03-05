@@ -315,6 +315,17 @@ class ShortCodeParser
             $html .= '</tbody></table>';
             return $html;
         }
+
+        $groups = explode('.', $key);
+        if(count($groups) > 1) {
+            $group = array_shift($groups);
+            $property = implode('.', $groups);
+            $handlerValue = apply_filters('fluentform_smartcode_group_'.$group, $property, self::getInstance());
+            if($handlerValue != $property) {
+                return $handlerValue;
+            }
+        }
+
         // This fallback actually
         $handlerValue = apply_filters('fluentform_shortcode_parser_callback_' . $key, '{' . $key . '}', self::getInstance());
 
@@ -363,6 +374,11 @@ class ShortCodeParser
         }
         $instance = new static();
         return $instance;
+    }
+
+    public static function getInputs()
+    {
+        return static::$store['original_inputs'];
     }
 }
 

@@ -1,0 +1,6 @@
+.asset-generator__canvas {
+  min-height: 200px;
+  min-width: 200px;
+  background-position: center center;
+  background-size: 150px;
+  background-repeat: no-repeat; }

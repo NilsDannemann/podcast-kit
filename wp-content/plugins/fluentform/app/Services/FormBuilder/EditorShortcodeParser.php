@@ -42,7 +42,8 @@ class EditorShortcodeParser
         'browser.name'     => 'parseBrowserProperties',
         'browser.platform' => 'parseBrowserProperties',
 
-        'get.param_name' => 'parseQueryParam'
+        'get.param_name'           => 'parseQueryParam',
+        'random_string.param_name' =>  'parseRandomString'
     ];
 
     /**
@@ -72,6 +73,8 @@ class EditorShortcodeParser
                 );
             } elseif (strpos($handler, 'get.') !== false) {
                 return static::parseQueryParam($handler);
+            } elseif (strpos($handler, 'random_string.') !== false) {
+                return static::parseRandomString($handler);
             } else if (strpos($handler, 'user.meta.') !== false) {
                 $key = substr(str_replace(['{', '}'], '', $value), 10);
                 $user = wp_get_current_user();
@@ -307,7 +310,7 @@ class EditorShortcodeParser
      * @return string
      */
     public static function parseQueryParam($value)
-    {
+    {	        
         $exploded = explode('.', $value);
         $param = array_pop($exploded);
         if (!isset($_REQUEST[$param])) {
@@ -318,5 +321,19 @@ class EditorShortcodeParser
             return sanitize_textarea_field(implode(', ', $value));
         }
         return sanitize_textarea_field($value);
+    }
+    
+    /**
+     * Generate random a string with prefix
+     *
+     * @param $value
+     * @return string
+     */
+    public static function parseRandomString($value)
+    {
+        
+        $exploded = explode ('.',$value);
+        $prefix =  array_pop($exploded) ;
+        return $prefix.uniqid () ;
     }
 }

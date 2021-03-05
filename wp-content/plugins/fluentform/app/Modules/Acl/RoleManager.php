@@ -41,6 +41,15 @@ class RoleManager
     public function setRoles() {
         if(current_user_can('manage_options')) {
             $capability = isset($_REQUEST['capability']) ? $_REQUEST['capability'] : [];
+
+            foreach ($capability as $item) {
+            	if (strtolower($item) == 'subscriber') {
+		            wp_send_json_error(array(
+			            'message' => __('Sorry, you can not give access to the Subscriber role.', 'fluentform')
+		            ), 423);
+	            }
+            }
+
             update_option('_fluentform_form_permission', $capability, 'no');
             wp_send_json_success( array(
                 'message' => __('Successfully saved the role(s).', 'fluentform')

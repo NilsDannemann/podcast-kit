@@ -75,3 +75,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
+
+// FREEMIUS Debug Mode
+define( 'WP_FS__DEV_MODE', true );

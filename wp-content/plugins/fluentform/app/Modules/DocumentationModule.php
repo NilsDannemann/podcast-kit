@@ -35,7 +35,7 @@ class DocumentationModule
 			),
 			array(
 				'title' => __('Managing form submissions', 'fluentform'),
-				'link' => 'https://wpmanageninja.com/docs/fluent-form/getting-started/managing-submitted-entries/'
+				'link' => 'https://wpmanageninja.com/docs/fluent-form/view-submitted-form-data-in-wp-fluent-forms/view-manage-submitted-form-entries/'
 			),
 			array(
 				'title' => __('Setting up email notifications', 'fluentform'),
@@ -51,7 +51,7 @@ class DocumentationModule
 			),
 			array(
 				'title' => __('Form restrictions and scheduling', 'fluentform'),
-				'link' => 'https://wpmanageninja.com/docs/fluent-form/advanced-features-functionalities-in-wp-fluent-form/form-restrictions-scheduling/'
+				'link' => 'https://wpmanageninja.com/docs/fluent-form/advanced-features-functionalities-in-wp-fluent-form/form-restrictions/'
 			),
             array(
 				'title' => __('Setup conditional confirmation messages', 'fluentform'),

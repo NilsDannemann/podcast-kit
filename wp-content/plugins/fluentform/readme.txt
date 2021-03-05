@@ -2,9 +2,9 @@
 Contributors: techjewel,adreastrian,heera,wpmanageninja
 Tags: contact form, contact forms, wp forms, forms, form builder, contact form builder, fluent forms
 Requires at least: 4.5
-Tested up to: 5.6.1
+Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 3.6.65
+Stable tag: 3.6.66
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -321,6 +321,15 @@ The entire source code is <a href="https://github.com/fluentform/fluentform">ava
 11. Asset Loading Comparison with Other Plugins
 
 == Changelog ==
+
+= 3.6.66 (Date: Mar 05, 2021) =
+* Refactored VueJS build system, Form editor is now 40% faster.
+* Added Hooks for Smart Codes
+* MailChimp Integration Issue fixed
+* Added Week-days to Date Field
+* Nonce check issue fixed on admin ajax
+* Admin Panel icon load issue fixed
+* PHP 8 compatibility issue fixed
 
 = 3.6.65 (Date: Feb 09, 2021) =
 * Randomize /Shuffle checkable options

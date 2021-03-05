@@ -72,7 +72,7 @@ class GlobalIntegrationManager
         wp_send_json_success([
             'feeds'                  => $formattedFeeds,
             'available_integrations' => $availableIntegrations,
-            'all_module_config_url'  => admin_url('admin.php?page=fluent_form_add_ons')
+            'all_module_config_url'  => admin_url('admin.php?page=fluent_forms_add_ons')
         ], 200);
 
     }

@@ -2,6 +2,8 @@
 
 namespace FluentForm\App\Modules\Acl;
 
+use FluentForm\Framework\Helpers\ArrayHelper;
+
 class Acl
 {
     public static function getPermissionSet()
@@ -58,6 +60,8 @@ class Acl
         $json = true
     )
     {
+    	static::verifyNonce();
+
         $allowed = self::hasPermission($permission, $formId);
         if (!$allowed) {
             if ($json) {
@@ -116,4 +120,21 @@ class Acl
         }
         return false;
     }
+
+	public static function verifyNonce($key = 'fluent_forms_admin_nonce')
+	{
+		if (!wp_doing_ajax()) {
+			return;
+		}
+
+		$nonce = ArrayHelper::get($_REQUEST, $key);
+
+		if (!wp_verify_nonce($nonce, $key)) {
+			$message = apply_filters('fluentform_nonce_error', __('Nonce verification failed, please try again.', 'fluentform'));
+
+			wp_send_json_error([
+				'message' => $message
+			], 422);
+		}
+	}
 }

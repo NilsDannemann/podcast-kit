@@ -199,6 +199,7 @@ class Bootstrap
     {
         add_action('plugins_loaded', function () {
             Application::run(static::$file, static::$config);
+            do_action('fluentform_loaded');
         }, 1);
     }
 }
