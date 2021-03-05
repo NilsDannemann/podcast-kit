@@ -216,4 +216,3 @@ class Pk_Asset_Generator {
 	}
 
 }
-
