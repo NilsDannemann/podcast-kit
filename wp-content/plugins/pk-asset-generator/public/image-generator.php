@@ -1,9 +1,15 @@
 <?php
 	
 	header("Content-Type: image/jpeg");
-	
+
+	//Load WP if not loaded
+	if ( !defined('ABSPATH') ) {
+	    $path = $_SERVER['DOCUMENT_ROOT'];
+	    include_once $path . '/wp-load.php';
+	}
+
 	// Define Paths
-	$plugin_dir = dirname(__FILE__);
+	$asset_dir = plugin_dir_url( __FILE__ );
 
 	// Define adjustable Settings
 	$quality 	 	 	= (string) isset($_GET['quality']) ? $_GET['quality'] : 85;
@@ -13,7 +19,7 @@
 	$waveform_detail 	= (string) isset($_GET['waveform_detail']) ? $_GET['waveform_detail'] : 5;
 	$waveform_position 	= (string) isset($_GET['waveform_position']) ? $_GET['waveform_position'] : 'center bottom';
 	$background   	 	= (string) isset($_GET['background']) ? explode(",",hex2rgb($_GET['background'])) : explode(",",hex2rgb('ffffff'));
-	$image  	 	 	= (string) isset($_GET['image']) ? $_GET['image'] : $plugin_dir.'/images/pk-placeholder-transparent.png';
+	$image  	 	 	= (string) isset($_GET['image']) ? $_GET['image'] : $asset_dir.'images/pk-placeholder-transparent.png';
 	$tagline 		 	= (string) isset($_GET['tagline']) ? $_GET['tagline'] : '';
 	$tagline_color 	 	= (string) isset($_GET['tagline_color']) ? explode(",",hex2rgb($_GET['tagline_color'])) : explode(",",hex2rgb('ffffff'));
 	$tagline_size  	 	= (string) isset($_GET['tagline_size']) ? $_GET['tagline_size'] : 50;
@@ -27,12 +33,11 @@
 	$text_size   	 	= (string) isset($_GET['text_size']) ? $_GET['text_size'] : 25;
 	$text_font 	 	 	= (string) isset($_GET['text_font']) ? './fonts/'.$_GET['text_font'].'.ttf' : './fonts/roboto-regular.ttf';
 
-
 	// Draw Canvas
 	$canvas = @imagecreatetruecolor($canvas_width, $canvas_height) or die("Cannot Initialize new GD image stream");
 
 	// Prepare Settings for Canvas
-	$background_color = imagecolorallocate($canvas, $background[0], $background[1], $background[2]);
+	$background = imagecolorallocate($canvas, $background[0], $background[1], $background[2]);
 
 	// Image to Canvas
 	$image_object 		 = imagecreatefromstring(file_get_contents($image));
@@ -68,7 +73,7 @@
 
 	// Waveform to Canvas
 	if ($waveform == 'true') {
-		$waveform_image = $plugin_dir.'/images/waveform-detail-'.$waveform_detail.'.png';
+		$waveform_image = $asset_dir.'images/waveform-detail-'.$waveform_detail.'.png';
 		$waveform_object = imagecreatefromstring(file_get_contents($waveform_image));
 		$waveform_object_width  = imagesx($waveform_object);
 		$waveform_object_height = imagesy($waveform_object);
