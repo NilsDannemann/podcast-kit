@@ -113,12 +113,18 @@
 		);
 	}
 
-	
+	// Text Position Presets
+	$content_padding = '60';
+	$title_size = '60';
+	$title_position = 'center center';
+	$text_position = 'center bottom';
+	$tagline_position = 'center top';
+
 	// Tagline to Canvas
 	$tagline_color = imagecolorallocate($canvas, $tagline_color[0], $tagline_color[1], $tagline_color[2]);
 	$tagline_box = imagettfbbox($tagline_size, 0, $tagline_font, $tagline);
-	$x = $tagline_box[0] + ($canvas_width / 2) - ($tagline_box[4] / 2); // Preset: Horizontally centered
-	$y = $tagline_box[1] + ($canvas_height / 2) - ($tagline_box[5] / 2); // Preset: Vertically centered
+	$x = getContentPosition($tagline_box, $canvas_width, $canvas_height, $content_padding, $tagline_position, 'x');
+	$y = getContentPosition($tagline_box, $canvas_width, $canvas_height, $content_padding, $tagline_position, 'y');
 	// Add to Canvas
 	imagettftext($canvas, $tagline_size, 0, $x, $y, $tagline_color, $tagline_font, $tagline);
 
@@ -126,27 +132,16 @@
 	$title_color = imagecolorallocate($canvas, $title_color[0], $title_color[1], $title_color[2]);
 	$title_box = imagettfbbox($title_size, 0, $title_font, $title);
 	// Position on Canvas
-	$title_position = 'center top';
-	if ($title_position == 'center top') {
-		// Position Preset: center top
-		$x = $title_box[0] + ($canvas_width / 2) - ($title_box[4] / 2);
-		$y = $title_box[1] + $content_padding - ($title_box[5] / 1.5);
-	} else if ($title_position == 'center center') {
-		$x = $title_box[0] + ($canvas_width / 2) - ($title_box[4] / 2);
-		$y = $title_box[1] + ($canvas_height / 2) - ($title_box[5] / 2);
-		
-	} else {
-		// Position Preset: center bottom
-		
-	}
+	$x = getContentPosition($title_box, $canvas_width, $canvas_height, $content_padding, $title_position, 'x');
+	$y = getContentPosition($title_box, $canvas_width, $canvas_height, $content_padding, $title_position, 'y');
 	// Write to Canvas
 	imagettftext($canvas, $title_size, 0, $x, $y, $title_color, $title_font, $title);
 	
 	// Text to Canvas
 	$text_box = imagettfbbox($text_size, 0, $text_font, $text);
 	$text_color = imagecolorallocate($canvas, $text_color[0], $text_color[1], $text_color[2]);
-	$x = $text_box[0] + ($canvas_width / 2) - ($text_box[4] / 2); // Preset: Horizontally centered
-	$y = $text_box[1] + ($canvas_height / 2) - ($text_box[5] / 2); // Preset: Horizontally centered
+	$x = getContentPosition($text_box, $canvas_width, $canvas_height, $content_padding, $text_position, 'x');
+	$y = getContentPosition($text_box, $canvas_width, $canvas_height, $content_padding, $text_position, 'y');
 	// Add to Canvas
 	imagettftext($canvas, $text_size, 0, $x, $y, $text_color, $text_font, $text);
 
@@ -155,7 +150,32 @@
 	imagedestroy($canvas);
 
 
-	// Helper Functions
+
+	// Helper Function - Get Content Position
+	function getContentPosition($content_box, $canvas_width, $canvas_height, $content_padding, $position, $axis) {
+	   	switch ($position) {
+	       case 'center top':
+				$x = $content_box[0] + ($canvas_width / 2) - ($content_box[4] / 2);
+				$y = $content_box[1] - ($content_box[5] * 0.75) + $content_padding;
+				break;
+	       case 'center center':
+	       		$x = $content_box[0] + ($canvas_width / 2) - ($content_box[4] / 2);
+	       		$y = $content_box[1] + ($canvas_height / 2) - ($content_box[5] / 2);
+				break;
+	       case 'center bottom':
+	       		$x = $content_box[0] + ($canvas_width / 2) - ($content_box[4] / 2);
+	       		$y = $canvas_height + ($content_box[5] * 0.25) - $content_padding;
+				break;
+	       default:
+	       		$x = $content_box[0] + ($canvas_width / 2) - ($content_box[4] / 2);
+	       		$y = $content_box[1] + ($canvas_height / 2) - ($content_box[5] / 2);
+				break;
+	   	}
+	   	return $axis == 'x' ? $x : $y;
+	}
+
+
+	// Helper Function - Hex 2 RGB
 	function hex2rgb($hex) {
 	   $hex = str_replace("#", "", $hex);
 
