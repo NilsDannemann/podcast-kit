@@ -149,26 +149,84 @@
 
 	// Helper Function - Get Content Position
 	function getContentPosition($content_box, $canvas_width, $canvas_height, $content_padding, $position, $axis) {
-	   	switch ($position) {
-	       case 'center top':
-				$x = $content_box[0] + ($canvas_width / 2) - ($content_box[4] / 2);
-				$y = $content_box[1] - ($content_box[5] * 0.75) + $content_padding;
-				break;
-	       case 'center center':
-	       		$x = $content_box[0] + ($canvas_width / 2) - ($content_box[4] / 2);
-	       		$y = $content_box[1] + ($canvas_height / 2) - ($content_box[5] / 2);
-				break;
-	       case 'center bottom':
-	       		$x = $content_box[0] + ($canvas_width / 2) - ($content_box[4] / 2);
-	       		$y = $canvas_height + ($content_box[5] * 0.25) - $content_padding;
-				break;
-	       default:
-	       		$x = $content_box[0] + ($canvas_width / 2) - ($content_box[4] / 2);
-	       		$y = $content_box[1] + ($canvas_height / 2) - ($content_box[5] / 2);
-				break;
-	   	}
+	   	
+	   	$position = explode(' ' , $position);
+	   	$position_x = $position[0];
+	   	$position_y = $position[1];
+
+	   	   	switch ($position_y) {
+	   	       	case 'top':
+	   				$y = $content_box[1] - ($content_box[5] * 0.75) + $content_padding;
+	   				break;
+	   	       	case 'center':
+	   	       		$y = $content_box[1] + ($canvas_height / 2) - ($content_box[5] / 2);
+	   				break;
+	   	       	case 'bottom':
+	   	       		$y = $canvas_height + ($content_box[5] * 0.25) - $content_padding;
+	   				break;      
+	   	   	}
+
+   	   	   	switch ($position_x) {
+   	   	       	case 'left':
+   	   				$x = $content_padding;
+   	   				break;
+   	   	       	case 'center':
+   	   	       		$x = $content_box[0] + ($canvas_width / 2) - ($content_box[4] / 2);
+   	   				break;
+   	   	       	case 'right':
+   	   	       		$x = $canvas_width - $content_box[4] - $content_padding;
+   	   				break;      
+   	   	   	}
+
 	   	return $axis == 'x' ? $x : $y;
 	}
+
+
+
+
+	// Helper Function - Crete Text Box
+	// function calculateTextBox($font_size, $font_angle, $font_file, $text) {
+	// 	$box   = imagettfbbox($font_size, $font_angle, $font_file, $text);
+	// 	if( !$box )
+	// 		return false;
+	// 	$min_x = min( array($box[0], $box[2], $box[4], $box[6]) );
+	// 	$max_x = max( array($box[0], $box[2], $box[4], $box[6]) );
+	// 	$min_y = min( array($box[1], $box[3], $box[5], $box[7]) );
+	// 	$max_y = max( array($box[1], $box[3], $box[5], $box[7]) );
+	// 	$width  = ( $max_x - $min_x );
+	// 	$height = ( $max_y - $min_y );
+	// 	$left   = abs( $min_x ) + $width;
+	// 	$top    = abs( $min_y ) + $height;
+	// 	// to calculate the exact bounding box i write the text in a large image
+	// 	$img     = @imagecreatetruecolor( $width << 2, $height << 2 );
+	// 	$white   =  imagecolorallocate( $img, 255, 255, 255 );
+	// 	$black   =  imagecolorallocate( $img, 0, 0, 0 );
+	// 	imagefilledrectangle($img, 0, 0, imagesx($img), imagesy($img), $black);
+	// 	// for sure the text is completely in the image!
+	// 	imagettftext( $img, $font_size,
+	// 	            $font_angle, $left, $top,
+	// 	            $white, $font_file, $text);
+	// 	// start scanning (0=> black => empty)
+	// 	$rleft  = $w4 = $width<<2;
+	// 	$rright = 0;
+	// 	$rbottom   = 0;
+	// 	$rtop = $h4 = $height<<2;
+	// 	for( $x = 0; $x < $w4; $x++ )
+	// 	for( $y = 0; $y < $h4; $y++ )
+	// 	  if( imagecolorat( $img, $x, $y ) ){
+	// 	    $rleft   = min( $rleft, $x );
+	// 	    $rright  = max( $rright, $x );
+	// 	    $rtop    = min( $rtop, $y );
+	// 	    $rbottom = max( $rbottom, $y );
+	// 	  }
+	// 	// destroy img and serve the result
+	// 	imagedestroy( $img );
+	// 	return array( "left"   => $left - $rleft,
+	// 	            "top"    => $top  - $rtop,
+	// 	            "width"  => $rright - $rleft + 1,
+	// 	            "height" => $rbottom - $rtop + 1 );
+	// }
+
 
 
 	// Helper Function - Hex 2 RGB
@@ -198,6 +256,7 @@
 	   return implode(",", $rgb);
 	}
 
+	// Todo: refactor positioning function
 	// Todo: create function that removes unnecessary parameters (e.g. from unsplash urls) and adds the ones needed (e.g. size & quality for unsplash urls)
 
 ?>

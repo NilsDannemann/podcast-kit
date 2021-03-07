@@ -184,32 +184,32 @@ function pk_asset_generator_handler( $atts ) {
     // Long Sample: https://podcast-kit.com/wp-content/uploads/1500x1000.jpg
     // Hight Sample: https://podcast-kit.com/wp-content/uploads/1000x1500.jpg
     // Placeholder Sample: https://podcast-kit.com/wp-content/uploads/placeholder-1440x960-1.jpeg
-    // Local Sample: http://podcastkit.local/wp-content/plugins/pk-asset-generator/public/images/pk-placeholder-transparent.png
+    // Local Sample: http://podcastkit.local/wp-content/uploads/placeholder-1440x960-1.jpeg
     $params = '
 ?width=1080
 &height=1080
 &background_color=745EA6
-&image=http://podcastkit.local/wp-content/plugins/pk-asset-generator/public/images/pk-placeholder-transparent.png
+&image=http://podcastkit.local/wp-content/uploads/placeholder-1440x960-1.jpeg
 &waveform=true
 &waveform_detail=6
 &waveform_position=center bottom
-&tagline=Tagline
+&tagline=XX_tagline_XX
 &tagline_size=50
 &tagline_color=F7745D
 &tagline_font=roboto-bold
-&tagline_position=center center
-&title=Title of Episode
+&tagline_position=right top
+&title=XX_TITLEj_XX
 &title_size=80
-&title_color=ffffff
+&title_color=745EA6
 &title_font=roboto-bold
 &title_position=center center
-&text=Lorem ipsum dolor sit amet.
+&text=XX_Lorem ipsum dolor sit amet_XX
 &text_size=20
 &text_color=4191F2
 &text_font=nunito-bold
 &text_position=center center
 &content_padding=100
-&quality=85';
+&quality=100';
 
     // Set Style Modifiers: Spinner
     $style .= ' background-image: url('.$plugin_dir.'public/images/spinner-primary-lightest.svg); ';
