@@ -18,7 +18,7 @@
 	$waveform  	 	 	= (string) isset($_GET['waveform']) ? $_GET['waveform'] : false;
 	$waveform_detail 	= (string) isset($_GET['waveform_detail']) ? $_GET['waveform_detail'] : 5;
 	$waveform_position 	= (string) isset($_GET['waveform_position']) ? $_GET['waveform_position'] : 'center bottom';
-	$background   	 	= (string) isset($_GET['background']) ? explode(",",hex2rgb($_GET['background'])) : explode(",",hex2rgb('ffffff'));
+	$background_color   = (string) isset($_GET['background_color']) ? explode(",",hex2rgb($_GET['background_color'])) : explode(",",hex2rgb('ffffff'));
 	$image  	 	 	= (string) isset($_GET['image']) ? $_GET['image'] : $asset_dir.'images/pk-placeholder-transparent.png';
 	$tagline 		 	= (string) isset($_GET['tagline']) ? $_GET['tagline'] : '';
 	$tagline_color 	 	= (string) isset($_GET['tagline_color']) ? explode(",",hex2rgb($_GET['tagline_color'])) : explode(",",hex2rgb('ffffff'));
@@ -34,10 +34,11 @@
 	$text_font 	 	 	= (string) isset($_GET['text_font']) ? './fonts/'.$_GET['text_font'].'.ttf' : './fonts/roboto-regular.ttf';
 
 	// Draw Canvas
-	$canvas = @imagecreatetruecolor($canvas_width, $canvas_height) or die("Cannot Initialize new GD image stream");
+	$canvas = imagecreatetruecolor($canvas_width, $canvas_height) or die("Cannot Initialize new GD image stream");
 
-	// Prepare Settings for Canvas
-	$background = imagecolorallocate($canvas, $background[0], $background[1], $background[2]);
+	// Background Color to Canvas
+	$background_color_object = imagecolorallocate($canvas, $background_color[0], $background_color[1], $background_color[2]);
+	imagefilledrectangle($canvas, 0, 0, $canvas_width-1, $canvas_height-1, $background_color_object);
 
 	// Image to Canvas
 	$image_object 		 = imagecreatefromstring(file_get_contents($image));
