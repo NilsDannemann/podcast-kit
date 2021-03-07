@@ -184,7 +184,8 @@
 
 
 
-	// Helper Function - Crete Text Box
+	// Helper Function - Create Text Box
+	// https://www.php.net/manual/en/function.imagettfbbox.php#97357
 	// function calculateTextBox($font_size, $font_angle, $font_file, $text) {
 	// 	$box   = imagettfbbox($font_size, $font_angle, $font_file, $text);
 	// 	if( !$box )
