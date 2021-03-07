@@ -23,14 +23,17 @@
 	$tagline_color 	 	= (string) isset($_GET['tagline_color']) ? explode(",",hex2rgb($_GET['tagline_color'])) : explode(",",hex2rgb('ffffff'));
 	$tagline_size  	 	= (string) isset($_GET['tagline_size']) ? $_GET['tagline_size'] : 50;
 	$tagline_font  	 	= (string) isset($_GET['tagline_font']) ? './fonts/'.$_GET['tagline_font'].'.ttf' : './fonts/roboto-regular.ttf';
+	$tagline_position  	= (string) isset($_GET['tagline_position']) ? $_GET['tagline_position'] : 'center center';
 	$title 		  	 	= (string) isset($_GET['title']) ? $_GET['title'] : '';
 	$title_color  	 	= (string) isset($_GET['title_color']) ? explode(",",hex2rgb($_GET['title_color'])) : explode(",",hex2rgb('ffffff'));
 	$title_size   	 	= (string) isset($_GET['title_size']) ? $_GET['title_size'] : 100;
 	$title_font  	 	= (string) isset($_GET['title_font']) ? './fonts/'.$_GET['title_font'].'.ttf' : './fonts/roboto-regular.ttf';
+	$title_position  	= (string) isset($_GET['title_position']) ? $_GET['title_position'] : 'center center';
 	$text 		  	 	= (string) isset($_GET['text']) ? $_GET['text'] : '';
 	$text_color   	 	= (string) isset($_GET['text_color']) ? explode(",",hex2rgb($_GET['text_color'])) : explode(",",hex2rgb('ffffff'));
 	$text_size   	 	= (string) isset($_GET['text_size']) ? $_GET['text_size'] : 25;
 	$text_font 	 	 	= (string) isset($_GET['text_font']) ? './fonts/'.$_GET['text_font'].'.ttf' : './fonts/roboto-regular.ttf';
+	$text_position 	 	= (string) isset($_GET['text_position']) ? $_GET['text_position'] : 'center center';
 	$content_padding 	= (string) isset($_GET['content_padding']) ? $_GET['content_padding'] : '90';
 	$quality 	 	 	= (string) isset($_GET['quality']) ? $_GET['quality'] : 85;
 
@@ -112,13 +115,6 @@
 			$waveform_object_height // src_h
 		);
 	}
-
-	// Text Position Presets
-	$content_padding = '60';
-	$title_size = '60';
-	$title_position = 'center center';
-	$text_position = 'center bottom';
-	$tagline_position = 'center top';
 
 	// Tagline to Canvas
 	$tagline_color = imagecolorallocate($canvas, $tagline_color[0], $tagline_color[1], $tagline_color[2]);
