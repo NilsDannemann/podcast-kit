@@ -12,7 +12,6 @@
 	$asset_dir = plugin_dir_url( __FILE__ );
 
 	// Define adjustable Settings
-	$quality 	 	 	= (string) isset($_GET['quality']) ? $_GET['quality'] : 85;
 	$canvas_width 	 	= (string) isset($_GET['width']) ? $_GET['width'] : 300;
 	$canvas_height 	 	= (string) isset($_GET['height']) ? $_GET['height'] : 300;
 	$waveform  	 	 	= (string) isset($_GET['waveform']) ? $_GET['waveform'] : false;
@@ -32,6 +31,8 @@
 	$text_color   	 	= (string) isset($_GET['text_color']) ? explode(",",hex2rgb($_GET['text_color'])) : explode(",",hex2rgb('ffffff'));
 	$text_size   	 	= (string) isset($_GET['text_size']) ? $_GET['text_size'] : 25;
 	$text_font 	 	 	= (string) isset($_GET['text_font']) ? './fonts/'.$_GET['text_font'].'.ttf' : './fonts/roboto-regular.ttf';
+	$content_padding 	= (string) isset($_GET['content_padding']) ? $_GET['content_padding'] : '90';
+	$quality 	 	 	= (string) isset($_GET['quality']) ? $_GET['quality'] : 85;
 
 	// Draw Canvas
 	$canvas = imagecreatetruecolor($canvas_width, $canvas_height) or die("Cannot Initialize new GD image stream");
@@ -112,6 +113,7 @@
 		);
 	}
 
+	
 	// Tagline to Canvas
 	$tagline_color = imagecolorallocate($canvas, $tagline_color[0], $tagline_color[1], $tagline_color[2]);
 	$tagline_box = imagettfbbox($tagline_size, 0, $tagline_font, $tagline);
@@ -123,8 +125,20 @@
 	// Title to Canvas
 	$title_color = imagecolorallocate($canvas, $title_color[0], $title_color[1], $title_color[2]);
 	$title_box = imagettfbbox($title_size, 0, $title_font, $title);
-	$x = $title_box[0] + ($canvas_width / 2) - ($title_box[4] / 2); // Preset: Horizontally centered
-	$y = $title_box[1] + ($canvas_height / 2) - ($title_box[5] / 2); // Preset: Vertically centered
+	// Position on Canvas
+	$title_position = 'center top';
+	if ($title_position == 'center top') {
+		// Position Preset: center top
+		$x = $title_box[0] + ($canvas_width / 2) - ($title_box[4] / 2);
+		$y = $title_box[1] + $content_padding - ($title_box[5] / 1.5);
+	} else if ($title_position == 'center center') {
+		$x = $title_box[0] + ($canvas_width / 2) - ($title_box[4] / 2);
+		$y = $title_box[1] + ($canvas_height / 2) - ($title_box[5] / 2);
+		
+	} else {
+		// Position Preset: center bottom
+		
+	}
 	// Write to Canvas
 	imagettftext($canvas, $title_size, 0, $x, $y, $title_color, $title_font, $title);
 	
