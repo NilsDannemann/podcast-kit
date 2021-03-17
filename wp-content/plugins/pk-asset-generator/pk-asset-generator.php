@@ -189,7 +189,7 @@ function pk_asset_generator_handler( $atts ) {
 ?width=1080
 &height=1080
 &background_color=745EA6
-&image=http://podcastkit.local/wp-content/uploads/placeholder-1440x960-1.jpeg
+&image=https://images.unsplash.com/photo-1505740420928-5e560c06d30e?fit=crop&w=1080&q=80
 &waveform=true
 &waveform_detail=6
 &waveform_position=center bottom
