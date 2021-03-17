@@ -194,7 +194,7 @@ function pk_asset_generator_handler( $atts ) {
 &waveform_detail=6
 &waveform_position=center bottom
 &tagline=XX_tagline_XX
-&tagline_size=50
+&tagline_size=55
 &tagline_color=F7745D
 &tagline_font=roboto-bold
 &tagline_position=right top
